@@ -67,6 +67,18 @@ class CardioidGUI:
         self.status_label = ttk.Label(self.root, text="Gestoppt", foreground="firebrick")
         self.status_label.pack()
 
+        self.allpass_var = tk.BooleanVar(value=self.processor.use_allpass)
+        allpass_check = ttk.Checkbutton(
+            self.root, text="Zusaetzlicher Allpass (nur Experimente - verschlechtert breitbandige Ausloeschung)",
+            variable=self.allpass_var, command=self._on_allpass_toggle,
+        )
+        allpass_check.pack(pady=(15, 0))
+        ttk.Label(
+            self.root,
+            text="Standard: AUS. Reines Delay+Invert aus dem Abstand loescht bei\nallen Frequenzen aus - kein Frequenzabgleich noetig.",
+            foreground="gray40", justify=tk.CENTER,
+        ).pack()
+
     def _on_freq_change(self, _value):
         f = float(self.freq_var.get())
         self.oscillator.set_frequency(f)
@@ -86,6 +98,9 @@ class CardioidGUI:
             text=f"Allpass-Koeffizient a = {self.processor.allpass.a:.4f}   |   "
                  f"Delay = {delay_ms:.2f} ms"
         )
+
+    def _on_allpass_toggle(self):
+        self.processor.use_allpass = self.allpass_var.get()
 
     def _start(self):
         self.engine.start()

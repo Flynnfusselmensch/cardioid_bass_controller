@@ -129,11 +129,23 @@ class CardioidProcessor:
 
     SPEED_OF_SOUND_M_S = 343.0
 
-    def __init__(self, fs: float, invert: bool = True):
+    def __init__(self, fs: float, invert: bool = True, use_allpass: bool = False):
+        """
+        use_allpass=False (Standard): reine Delay+Invert-Ausloeschung, aus dem
+        Boxenabstand berechnet. Das ist FREQUENZUNABHAENGIG (breitband) - der
+        Zeitversatz d/c kompensiert den akustischen Laufwegsunterschied exakt,
+        fuer jede Frequenz gleichermassen. Kein Frequenzparameter noetig.
+
+        use_allpass=True: zusaetzlich ein Allpass, der NUR bei der eingestellten
+        fc exakt passt. Ausserhalb von fc verschlechtert sich die Ausloeschung
+        wieder (siehe Herleitung/Messung) - nur sinnvoll fuer Experimente mit
+        Einzelfrequenz-Feintuning, NICHT fuer normalen Betrieb.
+        """
         self.fs = fs
         self.delay = DelayLine(fs)
         self.allpass = OnePoleAllpass(fs)
         self.invert = invert
+        self.use_allpass = use_allpass
 
     def set_frequency(self, fc_hz: float) -> None:
         self.allpass.set_frequency(fc_hz)
@@ -145,7 +157,8 @@ class CardioidProcessor:
     def process_sample(self, x: float):
         box_a = x
         y = self.delay.process_sample(x)
-        y = self.allpass.process_sample(y)
+        if self.use_allpass:
+            y = self.allpass.process_sample(y)
         box_b = -y if self.invert else y
         return box_a, box_b
 
