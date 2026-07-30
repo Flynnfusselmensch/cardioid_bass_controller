@@ -23,7 +23,7 @@ def main():
     gui = CardioidGUI(processor, oscillator, engine)
     gui.run()
 
-print("hello world")
+
 
 if __name__ == "__main__":
     main()

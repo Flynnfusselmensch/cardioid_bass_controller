@@ -121,4 +121,3 @@ class CardioidGUI:
     def run(self):
         self.root.mainloop()
 
-print("gui is running")

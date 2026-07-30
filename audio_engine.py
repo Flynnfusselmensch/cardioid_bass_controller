@@ -61,4 +61,3 @@ class AudioEngine:
     def list_devices():
         return sd.query_devices()
 
-print("audio engine is running")

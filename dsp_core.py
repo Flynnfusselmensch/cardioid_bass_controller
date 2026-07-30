@@ -175,5 +175,3 @@ class CardioidProcessor:
     def reset(self) -> None:
         self.delay.reset()
         self.allpass.reset()
-
-print("dsp_core is running")
