@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Cardioid Bass Cabinet Controller
 
 Python-GUI zum Live-Abstimmen eines Cardioid-Bass-Setups: EIN Frequenzregler
@@ -52,3 +53,6 @@ uebertragen laesst:
 
 Wenn der Schritt ansteht, portiere einfach `dsp_core.py` Klasse fuer Klasse
 nach C - Variablennamen und Struktur bleiben identisch.
+=======
+# cardioid_bass_controller
+>>>>>>> 5f83c869b73b0c24b141dcbfb4eb4d4ca2e2921d
